@@ -1,1 +1,2 @@
-# NewsToSpeech
+# qr-code-android
+develop
