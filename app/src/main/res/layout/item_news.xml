@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="itemNews"
+            type="com.example.android.newstospeech.data.model.ItemNews" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TextNotoStyle.TextXXLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{itemNews.title}"
+                tools:text="Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_pub_date"
+                style="@style/TextNotoStyle2.TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{itemNews.pubDate}"
+                tools:text="2022-03-12 12:30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                style="@style/TextNotoStyle2.TextLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{itemNews.content}"
+                tools:text="Content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_pub_date" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

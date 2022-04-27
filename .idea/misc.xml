@@ -3,158 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable-hdpi/btn_favorite_check_box.xml" value="0.162" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable-v24/bg_radius_edit_text.xml" value="0.171" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable-xxxhdpi/result_favorite.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_border.xml" value="0.1235" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_border_item.xml" value="0.15" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_border_right_item.xml" value="0.1975" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_bottom_menu.xml" value="0.1365" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_card_view_qr_item.xml" value="0.1435" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_filter_check_box.xml" value="0.1785" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_gradient_float_button.xml" value="0.1765" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_item_filter.xml" value="0.144" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_radius_edit_text.xml" value="0.193" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/bg_rounded_bottom_app_bar.xml" value="0.193" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/btn_favorite_check_box.xml" value="0.162" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/button_top_live_camera_bg.xml" value="0.1615" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/camera_bell.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/camera_flash.xml" value="0.1615" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_add.xml" value="0.18" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_add_circle.xml" value="0.1425" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_back.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_barcode.xml" value="0.1235" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_bell_on.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_box.xml" value="0.119" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_camera_flash_off.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_camera_flash_on.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_clear.xml" value="0.119" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_clear_circle.xml" value="0.1" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_data_not_saved.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_dot.xml" value="0.125" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_email.xml" value="0.1285" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_favorite_border.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_filter.xml" value="0.1845" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_filter_dot.xml" value="0.1845" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_flash_on_vd_white_24.xml" value="0.1615" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_float_button.xml" value="0.1765" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_float_qr_code.xml" value="0.1365" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_group.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_group_2.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_heart.xml" value="0.1385" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_heart_fill.xml" value="0.1385" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_heart_red.xml" value="0.162" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_image.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1285" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_left_arrow.xml" value="0.18" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_photo.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_qr_code.xml" value="0.1765" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_recycle.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_red.xml" value="0.1235" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_red_solid.xml" value="0.1785" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_setting_star.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_studio.xml" value="0.119" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_tick.xml" value="0.173" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/ic_unchecked.xml" value="0.173" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/round_corner_md.xml" value="0.1645" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/selector_button_bg_dark.xml" value="0.16" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/setting_rating_empty.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/setting_rating_fill.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/setting_rating_star.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/switch_thumb_selector.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/drawable/switch_track_selector.xml" value="0.1595" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout-v24/layout_switch_setting_preference.xml" value="0.1421875" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/activity_settings.xml" value="0.1611799914493373" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/activity_splash.xml" value="0.20521590423257802" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/base_static_list_activity.xml" value="0.23333333333333334" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/dialog_error.xml" value="0.536" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_basic_blank.xml" value="0.2069260367678495" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_camera.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator.xml" value="0.72" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_contact.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_email.xml" value="0.31505102040816324" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_event.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_location.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_message.xml" value="0.32233223322332233" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_name_card.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_resaultcreator.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_text.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_url.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_creator_wifi.xml" value="0.5226130653266332" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_dashboard.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_filter_history.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_history.xml" value="0.2671451355661882" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_history_filter.xml" value="0.23020833333333332" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_home_resaultscans.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_location_loading_dialog.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_login.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_main.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_map_dialog.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_message.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_product.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_qr_code_detail.xml" value="0.2" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_save_share.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_setting.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_skip_auth.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_splash.xml" value="0.12" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_studio.xml" value="0.1" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_studio_filter.xml" value="0.14279606669516887" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_text.xml" value="0.4" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/fragment_url.xml" value="0.2496382054992764" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_barcode_field.xml" value="0.4" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_check_box.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_check_box_studio.xml" value="0.536" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_creator.xml" value="0.4" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_input_field.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_new_field_check_box.xml" value="0.11500641299700727" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_product.xml" value="0.39510939510939513" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_qr_creator.xml" value="0.536" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/item_qr_creator_studio.xml" value="0.22791519434628976" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_camera_preview_overlay.xml" value="0.12526720820863618" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_footer_fb.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_header_app_bar.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_location_loading_dialog.xml" value="0.4" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_no_data_history.xml" value="0.14114583333333333" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_not_found_history.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_notification.xml" value="0.477491961414791" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_popup_message.xml" value="0.20521590423257802" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_search_header.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_search_product_no_data.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_setting_rate.xml" value="0.29584599797365757" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_setting_rating.xml" value="0.13424540401881147" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_switch_setting_preference.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/layout_top_action_bar_in_live_camera.xml" value="0.536" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/laytout_no_data_history.xml" value="0.14270833333333333" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/persistent_bottom_sheet.xml" value="0.4" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/layout/product_fragment.xml" value="0.11458333333333333" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/menu/bottom_menu.xml" value="0.176" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1535" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1285" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/xml/preference_setting.xml" value="0.35135135135135137" />
-        <entry key="..\:/Android/qr-code-android/app/src/main/res/xml/preferences.xml" value="0.264" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable-v24/button_tertiaty_bg.xml" value="0.1645" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.166" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_create_bg.xml" value="0.16" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_create_bg_active.xml" value="0.16" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_create_bg_press.xml" value="0.16" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_delete_studio_bg_active.xml" value="0.1705" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_favorite_studio_bg.xml" value="0.1705" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_favorite_studio_bg_selected.xml" value="0.1705" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_primary_bg.xml" value="0.167" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_primary_bg_active.xml" value="0.167" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_primary_bg_disable.xml" value="0.167" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_primary_bg_press.xml" value="0.193" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_secondary_bg.xml" value="0.167" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_secondary_bg_active.xml" value="0.167" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/button_secondary_bg_press.xml" value="0.166" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/radio_selector_studio.xml" value="0.133" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/radio_text_color_studio.xml" value="0.133" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/switch_thumb_selector.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/drawable/switch_track_selector.xml" value="0.152" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/layout/activity_base.xml" value="0.259375" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/layout/item_load_more.xml" value="0.259375" />
-        <entry key="..\:/Android/qr-code-android/commonbase/src/main/res/layout/item_switch.xml" value="0.8" />
+        <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/activity_main.xml" value="0.140625" />
+        <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/fragment_vn_express.xml" value="0.140625" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/drawable/ic_connection_error.xml" value="0.1" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/drawable/loading_img.xml" value="0.1" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/layout/activity_main.xml" value="0.14791666666666667" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/layout/fragment_overview.xml" value="0.25" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/layout/fragment_vn_express.xml" value="0.358600583090379" />
+        <entry key="..\:/Desktop/android-basics-kotlin-mars-photos-app-main/app/src/main/res/layout/item_news.xml" value="0.2" />
       </map>
     </option>
   </component>
@@ -163,12 +19,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.1" />
-      </ProjectState>
-    </option>
   </component>
 </project>

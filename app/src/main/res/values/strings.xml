@@ -1,15 +1,20 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">News To Speech</string>
-    <string name="lost_connection">Mất kết nối</string>
-    <string name="skipLoginBtn">スキップ</string>
-    <string name="loginBtnText">新規登録</string>
-    <string name="btnLoginGoogleText">Googleで登録</string>
-    <string name="forgotCredentialText">メンバーの方はログイン</string>
-    <string name="forgotCredentialTextUnderline">ログイン</string>
-    <string name="can_not_login_google">Can not login with google account</string>
-    <string name="internal_error">Unknow Error!, please try again</string>
-    <string name="skipAuthTitle">スキップしますか？</string>
-    <string name="skipAuthSubtitle">ログインをしないでご使用の場合は、睡眠データは2週間分しか保存できません。ご注意ください。</string>
-    <string name="btnSecondText">スキップ</string>
-    <string name="btnFirstText">サインアップ</string>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2021 The Android Open Source Project.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="app_name">NewsToSpeech</string>
 </resources>

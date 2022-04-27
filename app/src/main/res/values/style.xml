@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextNotoStyle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorDark1</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="TextNotoStyle2">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorDark2</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="TextNotoStyle.TextXXXLarge">
+        <item name="android:textSize">@dimen/font_size_xxx_large</item>
+        <item name="fontWeight">600</item>
+    </style>
+
+    <style name="TextNotoStyle.TextXXLarge">
+        <item name="android:textSize">@dimen/font_size_xx_large</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+    <style name="TextNotoStyle2.TextNormal">
+        <item name="android:textSize">@dimen/font_size_normal</item>
+        <item name="fontWeight">300</item>
+    </style>
+
+    <style name="TextNotoStyle2.TextLarge">
+        <item name="android:textSize">@dimen/font_size_large</item>
+        <item name="fontWeight">400</item>
+    </style>
+</resources>
