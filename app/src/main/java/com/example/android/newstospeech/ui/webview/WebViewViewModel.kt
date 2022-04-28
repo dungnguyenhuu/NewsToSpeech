@@ -9,7 +9,10 @@ class WebViewViewModel : ViewModel() {
 
     val isShowPlay = MutableLiveData<Boolean>()
 
+    val isSpeak = MutableLiveData<Boolean>()
+
     init {
         isShowPlay.value = false
+        isSpeak.value = false
     }
 }

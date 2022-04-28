@@ -2,6 +2,7 @@ package com.example.android.newstospeech.ui.webview
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,11 +15,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.android.newstospeech.R
 import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
 import com.example.android.newstospeech.databinding.FragmentWebViewBinding
 import java.io.IOException
+import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +29,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import timber.log.Timber
 
-class WebViewFragment : Fragment() {
+class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     companion object {
         fun newInstance() = WebViewFragment()
@@ -37,6 +40,7 @@ class WebViewFragment : Fragment() {
 
     private val args: WebViewFragmentArgs by navArgs()
     lateinit var itemViews: ItemNews
+    private var tts: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +62,41 @@ class WebViewFragment : Fragment() {
         setWebView()
         getHtmlFromWeb()
         setupObserve()
+        setupViewEvent()
+    }
+
+    private fun setupViewEvent() {
+        tts = TextToSpeech(requireContext(), this)
+        binding.fabPlay.setOnClickListener {
+            if (viewModel.isSpeak.value == false) {
+                tts!!.speak(
+                    viewModel.vnExpressNews.value?.getAllContent(),
+                    TextToSpeech.QUEUE_FLUSH,
+                    null,
+                    ""
+                )
+                viewModel.isSpeak.value = true
+            } else {
+                viewModel.isSpeak.value = false
+                tts!!.stop()
+            }
+
+        }
     }
 
     private fun setupObserve() {
         viewModel.isShowPlay.observe(viewLifecycleOwner, Observer {
             binding.fabPlay.visibility = if (it) View.VISIBLE else View.GONE
+
+        })
+
+        viewModel.isSpeak.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.fabPlay.setImageResource(R.drawable.ic_pause)
+            } else {
+                binding.fabPlay.setImageResource(R.drawable.ic_play_arrow)
+            }
+
 
         })
     }
@@ -85,19 +119,45 @@ class WebViewFragment : Fragment() {
                 val description = document.select(VnExpressConstant.DESCRIPTION).text()
                 val contents = mutableListOf<String>()
                 document.select(VnExpressConstant.NORMAL).forEach { element ->
-                   contents.add(element.text())
+                    contents.add(element.text())
                 }
 
-                viewModel.vnExpressNews.postValue(VnExpressNews(
-                    titleDetail = titleDetail,
-                    description = description,
-                    contents = contents
-                ))
+                viewModel.vnExpressNews.postValue(
+                    VnExpressNews(
+                        title = titleDetail,
+                        desc = description,
+                        contents = contents
+                    )
+                )
                 viewModel.isShowPlay.postValue(true)
             } catch (e: IOException) {
                 Timber.d(e)
                 viewModel.isShowPlay.postValue(false)
             }
+        }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            // set US English as language for tts
+            val result = tts!!.setLanguage(Locale.ENGLISH)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "The Language specified is not supported!")
+            } else {
+                binding.fabPlay.isEnabled = true
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!")
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
         }
     }
 
