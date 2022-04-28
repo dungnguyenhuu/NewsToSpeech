@@ -2,16 +2,18 @@ package com.example.android.newstospeech.ui.vnexpress
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ExpandableListView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.newstospeech.databinding.ItemNewsBinding
 import com.example.android.newstospeech.data.model.ItemNews
 
-class ItemNewsAdapter : ListAdapter<ItemNews, ItemNewsAdapter.ItemNewsViewHolder>(DiffCallback) {
+class ItemNewsAdapter(val itemNewsListener: ItemNewsListener) : ListAdapter<ItemNews, ItemNewsAdapter.ItemNewsViewHolder>(DiffCallback) {
     class ItemNewsViewHolder(val binding: ItemNewsBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ItemNews) {
+        fun bind(item: ItemNews, itemListener: ItemNewsListener) {
             binding.itemNews = item
+            binding.itemListener = itemListener
             binding.executePendingBindings()
         }
     }
@@ -31,6 +33,12 @@ class ItemNewsAdapter : ListAdapter<ItemNews, ItemNewsAdapter.ItemNewsViewHolder
     }
 
     override fun onBindViewHolder(holder: ItemNewsViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), itemNewsListener)
     }
+}
+
+class ItemNewsListener(
+    val clickListener: (item: ItemNews) -> Unit
+) {
+    fun onClick(item: ItemNews) = clickListener(item)
 }

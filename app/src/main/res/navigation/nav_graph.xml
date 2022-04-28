@@ -18,5 +18,17 @@
         android:id="@+id/vnExpressFragment"
         android:name="com.example.android.newstospeech.ui.vnexpress.VnExpressFragment"
         android:label="VnExpressFragment"
-        tools:layout="@layout/fragment_vn_express"/>
+        tools:layout="@layout/fragment_vn_express">
+        <action
+            android:id="@+id/action_vnExpressFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.android.newstospeech.ui.webview.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="itemNews"
+            app:argType="com.example.android.newstospeech.data.model.ItemNews" />
+    </fragment>
 </navigation>

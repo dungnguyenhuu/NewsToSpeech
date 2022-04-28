@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.databinding.FragmentVnExpressBinding
 
 class VnExpressFragment : Fragment() {
@@ -36,11 +39,18 @@ class VnExpressFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        val adapter = ItemNewsAdapter()
+        val itemNewsListener = ItemNewsListener { item -> navigateWebView(item) }
+        val adapter = ItemNewsAdapter(itemNewsListener)
         binding.rvListNews.adapter = adapter
         viewModel.rssObject.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it.items)
         })
+    }
+
+    private fun navigateWebView(item: ItemNews) {
+        findNavController().navigate(
+            VnExpressFragmentDirections.actionVnExpressFragmentToWebViewFragment(item)
+        )
     }
 
 }

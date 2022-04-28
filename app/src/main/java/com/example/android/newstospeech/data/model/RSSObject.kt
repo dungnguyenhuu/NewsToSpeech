@@ -1,5 +1,8 @@
 package com.example.android.newstospeech.data.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class Feed(
     var url: String,
     var title: String,
@@ -9,6 +12,7 @@ data class Feed(
     var image: String
 )
 
+@Parcelize
 data class ItemNews(
     var title: String,
     var pubDate: String,
@@ -20,9 +24,10 @@ data class ItemNews(
     var content: String,
     var enclosure: Enclosure,
     var categories: List<String>
-)
+): Parcelable
 
-class Enclosure {}
+@Parcelize
+class Enclosure: Parcelable {}
 
 data class RSSObject(
     var status: String,
