@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.android.newstospeech.R
+import com.example.android.newstospeech.base.extention.setDebounceClickListener
 import com.example.android.newstospeech.databinding.FragmentOverviewBinding
 
 /**
@@ -59,7 +60,7 @@ class OverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.imgVnexpress.setOnClickListener {
+        binding.imgVnexpress.setDebounceClickListener {
             findNavController().navigate(R.id.action_overviewFragment_to_vnExpressFragment)
         }
     }

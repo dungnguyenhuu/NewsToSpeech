@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.android.newstospeech.R
+import com.example.android.newstospeech.base.extention.setDebounceClickListener
 import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
@@ -67,7 +68,7 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private fun setupViewEvent() {
         tts = TextToSpeech(requireContext(), this)
-        binding.fabPlay.setOnClickListener {
+        binding.fabPlay.setDebounceClickListener {
             if (viewModel.isSpeak.value == false) {
                 tts!!.speak(
                     viewModel.vnExpressNews.value?.getAllContent(),
