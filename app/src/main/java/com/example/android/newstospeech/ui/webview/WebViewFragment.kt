@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -61,7 +62,8 @@ class WebViewFragment : Fragment() {
 
     private fun setupObserve() {
         viewModel.isShowPlay.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(activity, "$it", Toast.LENGTH_LONG).show()
+            binding.fabPlay.visibility = if (it) View.VISIBLE else View.GONE
+
         })
     }
 

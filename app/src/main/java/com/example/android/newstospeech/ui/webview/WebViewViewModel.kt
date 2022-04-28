@@ -1,6 +1,5 @@
 package com.example.android.newstospeech.ui.webview
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.newstospeech.data.model.VnExpressNews
