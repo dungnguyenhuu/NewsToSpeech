@@ -3,14 +3,13 @@ package com.example.android.newstospeech.ui.webview
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -25,10 +24,10 @@ import java.io.IOException
 import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import timber.log.Timber
+
 
 class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
@@ -148,6 +147,15 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
             } else {
                 binding.fabPlay.isEnabled = true
             }
+
+            tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onDone(utteranceId: String) {
+                    viewModel.isSpeak.value = false
+                }
+
+                override fun onError(utteranceId: String) {}
+                override fun onStart(utteranceId: String) {}
+            })
 
         } else {
             Log.e("TTS", "Initilization Failed!")

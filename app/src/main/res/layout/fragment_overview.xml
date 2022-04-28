@@ -37,6 +37,8 @@
             android:layout_height="100dp"
             android:src="@drawable/ic_vnexpress"
             android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

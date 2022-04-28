@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/activity_main.xml" value="0.140625" />
+        <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/fragment_overview.xml" value="0.4" />
         <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/fragment_vn_express.xml" value="0.140625" />
         <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/fragment_web_view.xml" value="0.109375" />
         <entry key="..\:/Android/NewsToSpeech/app/src/main/res/layout/grid_view_item.xml" value="0.12135416666666667" />
