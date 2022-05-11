@@ -1,7 +1,12 @@
 package com.example.android.newstospeech.ui.webview
 
 import android.annotation.SuppressLint
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
@@ -20,6 +25,7 @@ import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
 import com.example.android.newstospeech.databinding.FragmentWebViewBinding
+import java.io.File
 import java.io.IOException
 import java.util.*
 import kotlinx.coroutines.Dispatchers
@@ -41,10 +47,13 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     private val args: WebViewFragmentArgs by navArgs()
     lateinit var itemViews: ItemNews
     private var tts: TextToSpeech? = null
+    private val FILENAME = "/wpta_tts.wav"
+    lateinit var mMediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         itemViews = args.itemNews
+        mMediaPlayer = MediaPlayer()
     }
 
     override fun onCreateView(
@@ -59,35 +68,28 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        println("AAA on view created")
         setWebView()
-        getHtmlFromWeb()
         setupObserve()
         setupViewEvent()
+        getHtmlFromWeb()
     }
 
     private fun setupViewEvent() {
         tts = TextToSpeech(requireContext(), this)
         binding.fabPlay.setDebounceClickListener {
-            if (viewModel.isSpeak.value == false) {
-                tts!!.speak(
-                    viewModel.vnExpressNews.value?.getAllContent(),
-                    TextToSpeech.QUEUE_FLUSH,
-                    null,
-                    ""
-                )
-                viewModel.isSpeak.value = true
+            println("AAA ${mMediaPlayer.isPlaying}")
+            if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
+                playMediaPlayer(1)
             } else {
-                viewModel.isSpeak.value = false
-                tts!!.stop()
+                playMediaPlayer(0)
             }
-
         }
     }
 
     private fun setupObserve() {
         viewModel.isShowPlay.observe(viewLifecycleOwner, Observer {
             binding.fabPlay.visibility = if (it) View.VISIBLE else View.GONE
-
         })
 
         viewModel.isSpeak.observe(viewLifecycleOwner, Observer {
@@ -96,8 +98,6 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
             } else {
                 binding.fabPlay.setImageResource(R.drawable.ic_play_arrow)
             }
-
-
         })
     }
 
@@ -122,14 +122,13 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
                     contents.add(element.text())
                 }
 
-                viewModel.vnExpressNews.postValue(
-                    VnExpressNews(
-                        title = titleDetail,
-                        desc = description,
-                        contents = contents
-                    )
+                val vnExpressNews = VnExpressNews(
+                    title = titleDetail,
+                    desc = description,
+                    contents = contents
                 )
-                viewModel.isShowPlay.postValue(true)
+                recordText(vnExpressNews)
+                viewModel.vnExpressNews.postValue(vnExpressNews)
             } catch (e: IOException) {
                 Timber.d(e)
                 viewModel.isShowPlay.postValue(false)
@@ -140,7 +139,7 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             // set US English as language for tts
-            val result = tts!!.setLanguage(Locale.ENGLISH)
+            val result = tts!!.setLanguage(Locale("vi_VN"))
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "The Language specified is not supported!")
@@ -149,12 +148,19 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                override fun onDone(utteranceId: String) {
-                    viewModel.isSpeak.value = false
+                override fun onStart(utteranceId: String) {
+                    println("AAA onStart")
                 }
 
-                override fun onError(utteranceId: String) {}
-                override fun onStart(utteranceId: String) {}
+                override fun onDone(utteranceId: String) {
+                    println("AAA ondone")
+                    initializeMediaPlayer()
+                    viewModel.isShowPlay.postValue(true)
+                }
+
+                override fun onError(utteranceId: String) {
+                    println("AAA onError")
+                }
             })
 
         } else {
@@ -162,12 +168,81 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
+    private fun initializeMediaPlayer() {
+        val fileName = Environment.getExternalStorageDirectory().absolutePath + FILENAME
+        val uri = Uri.parse("file://$fileName")
+//        mMediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        mMediaPlayer.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+        )
+        try {
+            mMediaPlayer.setDataSource(requireContext(), uri)
+            mMediaPlayer.prepare()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun playMediaPlayer(status: Int) {
+        // Start Playing
+        if (status == 0) {
+            mMediaPlayer.start()
+            viewModel.isSpeak.value = true
+        }
+
+        // Pause Playing
+        if (status == 1) {
+            mMediaPlayer.pause()
+            viewModel.isSpeak.value = false
+        }
+    }
+
+    private fun recordText(vnExpressNews: VnExpressNews) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val fileName = Environment.getExternalStorageDirectory().absolutePath + FILENAME
+            val soundFile = File(fileName)
+            if (soundFile.exists()) soundFile.delete()
+            val myBundleAlarm = Bundle()
+            myBundleAlarm.putString(
+                TextToSpeech.Engine.KEY_PARAM_STREAM,
+                AudioManager.STREAM_ALARM.toString()
+            )
+            myBundleAlarm.putString(TextToSpeech.Engine.KEY_PARAM_VOLUME, "1")
+            myBundleAlarm.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "dung_nh99")
+
+            if (tts!!.synthesizeToFile(
+                    vnExpressNews.getAllContent(),
+                    myBundleAlarm,
+                    File(fileName),
+                    "dung_nh99"
+                ) == TextToSpeech.SUCCESS
+            ) {
+                println("AAA Sound file created")
+            } else {
+                println("AAA Oops! Sound file not created")
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         if (tts != null) {
             tts!!.stop()
-            tts!!.shutdown()
+        }
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop()
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release()
+        }
+        if (tts != null) {
+            tts!!.shutdown()
+        }
+    }
 }
