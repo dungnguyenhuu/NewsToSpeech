@@ -29,5 +29,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@android:color/white" />
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminate="true" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

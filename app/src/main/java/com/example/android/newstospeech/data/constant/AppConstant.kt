@@ -7,3 +7,11 @@ object VnExpressConstant {
     const val FCK_DETAIL = ".fck_detail"
     const val NORMAL = ".Normal"
 }
+
+enum class TTSStatus {
+    LOADING,
+    ERROR,
+    DONE,
+    PLAY,
+    PAUSE
+}
