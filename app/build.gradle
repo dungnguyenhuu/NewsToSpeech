@@ -80,4 +80,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    implementation 'androidx.media:media:1.6.0'
+
 }

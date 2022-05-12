@@ -13,5 +13,11 @@ enum class TTSStatus {
     ERROR,
     DONE,
     PLAY,
-    PAUSE
+    PAUSE,
+    RESUME,
+    CLEAR,
 }
+
+const val FILENAME = "/wpta_tts.wav"
+const val ACTION_SPEECH = "action_speech"
+const val ACTION_SPEECH_SERVICE = "action_speech_service"

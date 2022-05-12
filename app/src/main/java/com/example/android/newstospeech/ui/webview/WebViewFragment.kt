@@ -1,6 +1,7 @@
 package com.example.android.newstospeech.ui.webview
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -23,11 +24,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.android.newstospeech.R
 import com.example.android.newstospeech.base.extention.setDebounceClickListener
+import com.example.android.newstospeech.data.constant.ACTION_SPEECH_SERVICE
+import com.example.android.newstospeech.data.constant.FILENAME
 import com.example.android.newstospeech.data.constant.TTSStatus
 import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
 import com.example.android.newstospeech.databinding.FragmentWebViewBinding
+import com.example.android.newstospeech.service.SpeechService
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -50,7 +54,6 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     private val args: WebViewFragmentArgs by navArgs()
     lateinit var itemViews: ItemNews
     private var tts: TextToSpeech? = null
-    private val FILENAME = "/wpta_tts.wav"
     lateinit var mMediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,13 +85,20 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(requireContext(), this)
         binding.fabPlay.setDebounceClickListener {
             if(viewModel.isSpeak.value != TTSStatus.LOADING) {
-                if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
-                    playMediaPlayer(1)
-                } else {
-                    playMediaPlayer(0)
-                }
+                startSpeechService()
+//                if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
+//                    playMediaPlayer(1)
+//                } else {
+//                    playMediaPlayer(0)
+//                }
             }
         }
+    }
+
+    private fun startSpeechService() {
+        val intent = Intent(requireContext(), SpeechService::class.java)
+        intent.putExtra(ACTION_SPEECH_SERVICE, TTSStatus.PLAY.ordinal)
+        requireActivity().startService(intent)
     }
 
     private fun setupObserve() {
@@ -178,7 +188,7 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
                 override fun onDone(utteranceId: String) {
                     println("AAA ondone")
-                    initializeMediaPlayer()
+//                    initializeMediaPlayer()
                     viewModel.isSpeak.postValue(TTSStatus.DONE)
                 }
 
@@ -276,5 +286,11 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         if (tts != null) {
             tts!!.shutdown()
         }
+//        stopSpeechService()
+    }
+
+    private fun stopSpeechService() {
+        val intent = Intent(requireContext(), SpeechService::class.java)
+        requireActivity().stopService(intent)
     }
 }

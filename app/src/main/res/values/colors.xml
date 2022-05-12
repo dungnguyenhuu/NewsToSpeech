@@ -26,4 +26,5 @@
 
     <color name="colorDark1">#3E4252</color>
     <color name="colorDark2">#586379</color>
+    <color name="gray">#10000000</color>
 </resources>
