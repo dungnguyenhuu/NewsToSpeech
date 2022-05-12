@@ -21,3 +21,5 @@ enum class TTSStatus {
 const val FILENAME = "/wpta_tts.wav"
 const val ACTION_SPEECH = "action_speech"
 const val ACTION_SPEECH_SERVICE = "action_speech_service"
+const val SENT_DATA_TO_FRAGMENT = "sent_data_to_fragment"
+const val STATUS_MEDIA_PLAYER = "status_media_player"

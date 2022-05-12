@@ -10,10 +10,10 @@ class WebViewViewModel : ViewModel() {
 
     val isShowPlay = MutableLiveData<Boolean>()
 
-    val isSpeak = MutableLiveData<TTSStatus>()
+    val isSpeak = MutableLiveData<Int>()
 
     init {
         isShowPlay.value = false
-        isSpeak.value = TTSStatus.LOADING
+        isSpeak.value = TTSStatus.LOADING.ordinal
     }
 }

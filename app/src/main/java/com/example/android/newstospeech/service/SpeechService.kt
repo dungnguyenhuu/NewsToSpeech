@@ -1,6 +1,5 @@
 package com.example.android.newstospeech.service
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
@@ -8,18 +7,20 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
-import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.android.newstospeech.App.Companion.CHANNEL_ID
 import com.example.android.newstospeech.MainActivity
 import com.example.android.newstospeech.R
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH_SERVICE
 import com.example.android.newstospeech.data.constant.FILENAME
+import com.example.android.newstospeech.data.constant.SENT_DATA_TO_FRAGMENT
+import com.example.android.newstospeech.data.constant.STATUS_MEDIA_PLAYER
 import com.example.android.newstospeech.data.constant.TTSStatus
 import com.example.android.newstospeech.receiver.SpeechReceiver
 import timber.log.Timber
@@ -27,6 +28,7 @@ import timber.log.Timber
 class SpeechService : Service() {
 
     lateinit var mMediaPlayer: MediaPlayer
+    var isPlaying = false
 
     override fun onCreate() {
         super.onCreate()
@@ -51,11 +53,13 @@ class SpeechService : Service() {
         // Start Playing
         if (status == 0) {
             mMediaPlayer.start()
+            isPlaying = true
         }
 
         // Pause Playing
         if (status == 1) {
             mMediaPlayer.pause()
+            isPlaying = false
         }
     }
 
@@ -73,6 +77,9 @@ class SpeechService : Service() {
             mMediaPlayer.prepare()
             mMediaPlayer.setOnCompletionListener {
                 println("AAA Finished")
+                isPlaying = false
+                sendNotificationMedia()
+                sendActionToFragment(TTSStatus.PAUSE.ordinal)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -96,13 +103,13 @@ class SpeechService : Service() {
                 .setMediaSession(mediaSessionCompat.sessionToken))
             .setVibrate(null)
             .setSound(null)
-        if (mMediaPlayer.isPlaying) {
+        if (isPlaying) {
             notificationCompat
-                .addAction(R.drawable.ic_pause, "Pause", getPendingIntent(this, TTSStatus.RESUME.ordinal))
+                .addAction(R.drawable.ic_play_arrow, "Play", getPendingIntent(this, TTSStatus.RESUME.ordinal))
                 .addAction(R.drawable.ic_clear, "Clear", getPendingIntent(this, TTSStatus.CLEAR.ordinal))
         } else {
             notificationCompat
-                .addAction(R.drawable.ic_play_arrow, "Play", getPendingIntent(this, TTSStatus.PAUSE.ordinal))
+                .addAction(R.drawable.ic_pause, "Pause", getPendingIntent(this, TTSStatus.PAUSE.ordinal))
                 .addAction(R.drawable.ic_clear, "Clear", getPendingIntent(this, TTSStatus.CLEAR.ordinal))
         }
         startForeground(1, notificationCompat.build())
@@ -125,23 +132,41 @@ class SpeechService : Service() {
         }
     }
 
+    fun sendActionToFragment(action: Int) {
+        val intent = Intent(SENT_DATA_TO_FRAGMENT)
+        val bundle = Bundle()
+        bundle.putBoolean(STATUS_MEDIA_PLAYER, isPlaying)
+        bundle.putInt(ACTION_SPEECH, action)
+        intent.putExtras(bundle)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+
+    }
+
     private fun playOrPause() {
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
-            playMediaPlayer(1)
+        isPlaying = if (mMediaPlayer != null && isPlaying) {
+            mMediaPlayer.pause()
+            sendActionToFragment(TTSStatus.PAUSE.ordinal)
+            false
         } else {
-            playMediaPlayer(0)
+            mMediaPlayer.start()
+            sendActionToFragment(TTSStatus.PLAY.ordinal)
+            true
         }
     }
 
     private fun resume() {
-        if (mMediaPlayer != null && !mMediaPlayer.isPlaying) {
+        if (mMediaPlayer != null && !isPlaying) {
             mMediaPlayer.start()
+            sendActionToFragment(TTSStatus.PLAY.ordinal)
+            isPlaying = true
         }
     }
 
     private fun pause() {
-        if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
+        if (mMediaPlayer != null && isPlaying) {
             mMediaPlayer.pause()
+            sendActionToFragment(TTSStatus.PAUSE.ordinal)
+            isPlaying = false
         }
     }
 

@@ -1,7 +1,10 @@
 package com.example.android.newstospeech.ui.webview
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -21,11 +24,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.navArgs
 import com.example.android.newstospeech.R
 import com.example.android.newstospeech.base.extention.setDebounceClickListener
+import com.example.android.newstospeech.data.constant.ACTION_SPEECH
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH_SERVICE
 import com.example.android.newstospeech.data.constant.FILENAME
+import com.example.android.newstospeech.data.constant.SENT_DATA_TO_FRAGMENT
 import com.example.android.newstospeech.data.constant.TTSStatus
 import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
@@ -37,6 +43,7 @@ import java.io.IOException
 import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import timber.log.Timber
@@ -55,6 +62,14 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     lateinit var itemViews: ItemNews
     private var tts: TextToSpeech? = null
     lateinit var mMediaPlayer: MediaPlayer
+
+    val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+           val bundle = intent?.extras ?: return
+            viewModel.isSpeak.value = bundle.getInt(ACTION_SPEECH)
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,18 +94,15 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         setupObserve()
         setupViewEvent()
         getHtmlFromWeb()
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(broadCastReceiver, IntentFilter(SENT_DATA_TO_FRAGMENT))
     }
 
     private fun setupViewEvent() {
         tts = TextToSpeech(requireContext(), this)
         binding.fabPlay.setDebounceClickListener {
-            if(viewModel.isSpeak.value != TTSStatus.LOADING) {
+            if(viewModel.isSpeak.value != TTSStatus.LOADING.ordinal) {
                 startSpeechService()
-//                if (mMediaPlayer != null && mMediaPlayer.isPlaying) {
-//                    playMediaPlayer(1)
-//                } else {
-//                    playMediaPlayer(0)
-//                }
             }
         }
     }
@@ -105,25 +117,25 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         viewModel.isSpeak.observe(viewLifecycleOwner, Observer {
             binding.apply {
                 when (it) {
-                    TTSStatus.LOADING -> {
+                    TTSStatus.LOADING.ordinal -> {
                         fabPlay.setImageResource(R.drawable.loading_img)
                         fabPlay.isEnabled = false
                         fabPlay.visibility = View.GONE
                         progressCircularLoading.visibility = View.VISIBLE
                     }
-                    TTSStatus.PLAY -> {
+                    TTSStatus.PLAY.ordinal -> {
                         fabPlay.setImageResource(R.drawable.ic_pause)
                         fabPlay.isEnabled = true
                         fabPlay.visibility = View.VISIBLE
                         progressCircularLoading.visibility = View.GONE
                     }
-                    TTSStatus.PAUSE, TTSStatus.DONE -> {
+                    TTSStatus.PAUSE.ordinal, TTSStatus.DONE.ordinal -> {
                         fabPlay.setImageResource(R.drawable.ic_play_arrow)
                         fabPlay.isEnabled = true
                         fabPlay.visibility = View.VISIBLE
                         progressCircularLoading.visibility = View.GONE
                     }
-                    TTSStatus.ERROR -> {
+                    TTSStatus.ERROR.ordinal -> {
                         fabPlay.setImageResource(R.drawable.ic_play_arrow)
                         fabPlay.isEnabled = false
                         fabPlay.visibility = View.GONE
@@ -183,18 +195,18 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
             tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onStart(utteranceId: String) {
                     println("AAA onStart")
-                    viewModel.isSpeak.postValue(TTSStatus.LOADING)
+                    viewModel.isSpeak.postValue(TTSStatus.LOADING.ordinal)
                 }
 
                 override fun onDone(utteranceId: String) {
                     println("AAA ondone")
 //                    initializeMediaPlayer()
-                    viewModel.isSpeak.postValue(TTSStatus.DONE)
+                    viewModel.isSpeak.postValue(TTSStatus.DONE.ordinal)
                 }
 
                 override fun onError(utteranceId: String) {
                     println("AAA onError")
-                    viewModel.isSpeak.postValue(TTSStatus.ERROR)
+                    viewModel.isSpeak.postValue(TTSStatus.ERROR.ordinal)
                 }
             })
 
@@ -220,7 +232,7 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
                     "I'm Finished",
                     Toast.LENGTH_SHORT
                 ).show()
-                viewModel.isSpeak.postValue(TTSStatus.DONE)
+                viewModel.isSpeak.postValue(TTSStatus.DONE.ordinal)
             })
         } catch (e: Exception) {
             e.printStackTrace()
@@ -231,13 +243,13 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         // Start Playing
         if (status == 0) {
             mMediaPlayer.start()
-            viewModel.isSpeak.value = TTSStatus.PLAY
+            viewModel.isSpeak.value = TTSStatus.PLAY.ordinal
         }
 
         // Pause Playing
         if (status == 1) {
             mMediaPlayer.pause()
-            viewModel.isSpeak.value = TTSStatus.PAUSE
+            viewModel.isSpeak.value = TTSStatus.PAUSE.ordinal
         }
     }
 
@@ -261,8 +273,14 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
                     "dung_nh99"
                 ) == TextToSpeech.SUCCESS
             ) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(activity, "Creating sound file", Toast.LENGTH_SHORT).show()
+                }
                 println("AAA Sound file created")
             } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(activity, "Oops! Sound file not created", Toast.LENGTH_SHORT).show()
+                }
                 println("AAA Oops! Sound file not created")
             }
         }
@@ -287,6 +305,8 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
             tts!!.shutdown()
         }
 //        stopSpeechService()
+        LocalBroadcastManager.getInstance(requireContext())
+            .unregisterReceiver(broadCastReceiver)
     }
 
     private fun stopSpeechService() {
