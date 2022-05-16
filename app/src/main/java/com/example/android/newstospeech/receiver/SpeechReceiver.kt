@@ -6,11 +6,12 @@ import android.content.Intent
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH_SERVICE
 import com.example.android.newstospeech.service.SpeechService
+import com.example.android.newstospeech.service.VoiceService
 
 class SpeechReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.getIntExtra(ACTION_SPEECH, -1)
-        val intentToService = Intent(context, SpeechService::class.java)
+        val intentToService = Intent(context, VoiceService::class.java)
         intentToService.putExtra(ACTION_SPEECH_SERVICE, action)
         context?.startService(intentToService)
     }

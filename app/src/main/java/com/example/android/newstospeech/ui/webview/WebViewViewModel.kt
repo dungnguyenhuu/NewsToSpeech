@@ -12,6 +12,8 @@ class WebViewViewModel : ViewModel() {
 
     val isSpeak = MutableLiveData<Int>()
 
+    val contentsList = ArrayList<String>()
+
     init {
         isShowPlay.value = false
         isSpeak.value = TTSStatus.LOADING.ordinal
