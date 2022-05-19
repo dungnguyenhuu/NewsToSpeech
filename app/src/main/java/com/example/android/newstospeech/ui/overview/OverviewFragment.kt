@@ -25,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.android.newstospeech.R
 import com.example.android.newstospeech.base.extention.setDebounceClickListener
+import com.example.android.newstospeech.data.constant.News
 import com.example.android.newstospeech.databinding.FragmentOverviewBinding
 
 /**
@@ -61,8 +62,15 @@ class OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imgVnexpress.setDebounceClickListener {
-//            findNavController().navigate(R.id.action_overviewFragment_to_vnExpressFragment)
-            findNavController().navigate(R.id.action_overviewFragment_to_viewPagerFragment)
+            findNavController().navigate(
+                OverviewFragmentDirections.actionOverviewFragmentToViewPagerFragment(News.VN_EXPRESS.ordinal)
+            )
+        }
+
+        binding.imgTuoiTre.setDebounceClickListener {
+            findNavController().navigate(
+                OverviewFragmentDirections.actionOverviewFragmentToViewPagerFragment(News.TUOI_TRE.ordinal)
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.android.newstospeech.ui.webview
+package com.example.android.newstospeech.ui.vnexpress.webview
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver

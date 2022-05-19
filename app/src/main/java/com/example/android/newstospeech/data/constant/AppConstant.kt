@@ -24,3 +24,11 @@ const val ACTION_SPEECH_SERVICE = "action_speech_service"
 const val SENT_DATA_TO_FRAGMENT = "sent_data_to_fragment"
 const val STATUS_MEDIA_PLAYER = "status_media_player"
 const val LIST_STRING_NEWS = "list_string_news"
+
+enum class News {
+    VN_EXPRESS,
+    TUOI_TRE
+}
+
+const val NEWS_TYPE = "news_type"
+const val POSITION_PAGER = "position_pager"

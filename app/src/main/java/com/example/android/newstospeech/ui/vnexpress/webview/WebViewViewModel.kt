@@ -1,4 +1,4 @@
-package com.example.android.newstospeech.ui.webview
+package com.example.android.newstospeech.ui.vnexpress.webview
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

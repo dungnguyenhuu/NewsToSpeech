@@ -1,6 +1,5 @@
 package com.example.android.newstospeech.ui.vnexpress.pager
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,16 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.example.android.newstospeech.R
+import com.example.android.newstospeech.data.constant.NEWS_TYPE
+import com.example.android.newstospeech.data.constant.News
+import com.example.android.newstospeech.data.constant.POSITION_PAGER
+import com.example.android.newstospeech.data.constant.TuoiTreConstant
 import com.example.android.newstospeech.data.constant.VnExpress
 import com.example.android.newstospeech.data.model.ItemNews
+import com.example.android.newstospeech.data.model.NewsCategory
 import com.example.android.newstospeech.databinding.FragmentPagerBinding
-import com.example.android.newstospeech.databinding.FragmentVnExpressBinding
-import com.example.android.newstospeech.databinding.FragmentWebViewBinding
 import com.example.android.newstospeech.ui.vnexpress.ItemNewsAdapter
 import com.example.android.newstospeech.ui.vnexpress.ItemNewsListener
-import com.example.android.newstospeech.ui.vnexpress.VnExpressFragmentDirections
 import com.example.android.newstospeech.ui.vnexpress.viewpager.ViewPagerFragmentDirections
 
 class PagerFragment : Fragment() {
@@ -30,7 +29,23 @@ class PagerFragment : Fragment() {
     lateinit var binding: FragmentPagerBinding
     private val viewModel: PagerViewModel by viewModels()
 
-    var item = -1
+    var position = -1
+    var newsType = -1
+    lateinit var listCategories: List<NewsCategory>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            position = it.getInt(POSITION_PAGER)
+            newsType = it.getInt(NEWS_TYPE)
+        }
+
+        when (newsType) {
+            News.VN_EXPRESS.ordinal -> listCategories = VnExpress.listCategories
+            News.TUOI_TRE.ordinal -> listCategories = TuoiTreConstant.listCategories
+            else -> listOf<NewsCategory>()
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,11 +59,8 @@ class PagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.pagerViewModel = viewModel
-        arguments?.let {
-            item = it.getInt("position")
-        }
-        if (item > -1) {
-            viewModel.getFeeds(VnExpress.listCategories[item].url)
+        if (listCategories.isNotEmpty()) {
+            viewModel.getFeeds(listCategories[position].url)
         }
         setRecyclerView()
     }
@@ -63,7 +75,6 @@ class PagerFragment : Fragment() {
     }
 
     private fun navigateWebView(item: ItemNews) {
-        println("AAA click item")
         NavHostFragment.findNavController(this).navigate(
             ViewPagerFragmentDirections.actionViewPagerFragmentToWebViewFragment(item)
         )

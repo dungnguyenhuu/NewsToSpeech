@@ -124,7 +124,6 @@ class VoiceService: Service(), TextToSpeech.OnInitListener {
     }
 
     private fun sendNotificationMedia() {
-        val mediaSessionCompat = MediaSessionCompat(this, "tag")
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent =
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
