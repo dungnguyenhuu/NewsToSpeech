@@ -34,3 +34,8 @@ data class RSSObject(
     var feed: Feed,
     var items: List<ItemNews>
 )
+
+data class NewsCategory(
+    var name: String,
+    var url: String
+)

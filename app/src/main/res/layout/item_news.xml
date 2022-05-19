@@ -31,36 +31,38 @@
 
             <ImageView
                 android:id="@+id/thumbnail_news"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:adjustViewBounds="true"
                 android:padding="2dp"
                 android:scaleType="fitXY"
                 app:imageUrl="@{itemNews.thumbnail}"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/TextNotoStyle.TextXXLarge"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{itemNews.title}"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/thumbnail_news"
+                app:layout_constraintStart_toEndOf="@+id/thumbnail_news"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
 
             <TextView
                 android:id="@+id/tv_pub_date"
                 style="@style/TextNotoStyle2.TextNormal"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{itemNews.pubDate}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintBottom_toBottomOf="@+id/thumbnail_news"
+                app:layout_constraintEnd_toEndOf="@+id/tv_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_title"
                 tools:text="2022-03-12 12:30" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

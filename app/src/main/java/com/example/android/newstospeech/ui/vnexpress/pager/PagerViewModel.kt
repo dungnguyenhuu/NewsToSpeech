@@ -21,12 +21,12 @@ class PagerViewModel : ViewModel() {
     // The external LiveData interface to the property is immutable, so only this class can modify
     val rssObject: LiveData<RSSObject> = _rssObject
 
-    fun getFeeds() {
+    fun getFeeds(url: String) {
         viewModelScope.launch {
             _status.value = NewsApiStatus.LOADING
             println("AAA getFeeds")
             try {
-                _rssObject.value = MarsApi.retrofitService.getAllFeeds("https://vnexpress.net/rss/tin-moi-nhat.rss")
+                _rssObject.value = MarsApi.retrofitService.getAllFeeds(url)
                 _status.value = NewsApiStatus.DONE
             } catch (e: Exception) {
                 println("AAA rss object ${e.message}")

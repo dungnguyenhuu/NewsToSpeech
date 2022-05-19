@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.android.newstospeech.R
+import com.example.android.newstospeech.data.constant.VnExpress
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.databinding.FragmentPagerBinding
 import com.example.android.newstospeech.databinding.FragmentVnExpressBinding
@@ -42,11 +43,13 @@ class PagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.pagerViewModel = viewModel
         arguments?.let {
             item = it.getInt("position")
         }
-        println("AAA $item")
-        viewModel.getFeeds()
+        if (item > -1) {
+            viewModel.getFeeds(VnExpress.listCategories[item].url)
+        }
         setRecyclerView()
     }
 

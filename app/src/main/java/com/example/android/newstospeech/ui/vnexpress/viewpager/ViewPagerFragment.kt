@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.android.newstospeech.R
+import com.example.android.newstospeech.data.constant.VnExpress
 import com.example.android.newstospeech.databinding.FragmentPagerBinding
 import com.example.android.newstospeech.databinding.FragmentViewPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -35,7 +36,7 @@ class ViewPagerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPager2.adapter = ViewPagerFragmentStateAdapter(requireActivity())
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
-           tab.text = "Item $position"
+           tab.text = VnExpress.listCategories[position].name
         }.attach()
     }
 
