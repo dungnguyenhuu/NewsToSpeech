@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_overviewFragment_to_vnExpressFragment"
             app:destination="@id/vnExpressFragment" />
+        <action
+            android:id="@+id/action_overviewFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/vnExpressFragment"
@@ -31,4 +34,9 @@
             android:name="itemNews"
             app:argType="com.example.android.newstospeech.data.model.ItemNews" />
     </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.android.newstospeech.ui.vnexpress.viewpager.ViewPagerFragment"
+        android:label="ViewPagerFragment"
+        tools:layout="@layout/fragment_view_pager"/>
 </navigation>

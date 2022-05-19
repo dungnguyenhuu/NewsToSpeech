@@ -61,7 +61,8 @@ class OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imgVnexpress.setDebounceClickListener {
-            findNavController().navigate(R.id.action_overviewFragment_to_vnExpressFragment)
+//            findNavController().navigate(R.id.action_overviewFragment_to_vnExpressFragment)
+            findNavController().navigate(R.id.action_overviewFragment_to_viewPagerFragment)
         }
     }
 }
