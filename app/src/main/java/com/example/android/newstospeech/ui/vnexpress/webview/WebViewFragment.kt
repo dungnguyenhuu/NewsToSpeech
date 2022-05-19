@@ -21,8 +21,10 @@ import com.example.android.newstospeech.base.extention.setDebounceClickListener
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH
 import com.example.android.newstospeech.data.constant.ACTION_SPEECH_SERVICE
 import com.example.android.newstospeech.data.constant.LIST_STRING_NEWS
+import com.example.android.newstospeech.data.constant.News
 import com.example.android.newstospeech.data.constant.SENT_DATA_TO_FRAGMENT
 import com.example.android.newstospeech.data.constant.TTSStatus
+import com.example.android.newstospeech.data.constant.TuoiTreConstant
 import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
@@ -47,9 +49,10 @@ class WebViewFragment : Fragment() {
 
     private val args: WebViewFragmentArgs by navArgs()
     lateinit var itemViews: ItemNews
+    var newsType = -1
     private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
-           val bundle = intent?.extras ?: return
+            val bundle = intent?.extras ?: return
             viewModel.isSpeak.value = bundle.getInt(ACTION_SPEECH)
 
         }
@@ -58,6 +61,7 @@ class WebViewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         itemViews = args.itemNews
+        newsType = args.newsType
     }
 
     override fun onCreateView(
@@ -82,7 +86,7 @@ class WebViewFragment : Fragment() {
 
     private fun setupViewEvent() {
         binding.fabPlay.setDebounceClickListener {
-            if(viewModel.isSpeak.value != TTSStatus.LOADING.ordinal) {
+            if (viewModel.isSpeak.value != TTSStatus.LOADING.ordinal) {
                 startVoiceService()
             }
         }
@@ -144,28 +148,53 @@ class WebViewFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val document: Document = Jsoup.connect(itemViews.link).get()
-                val titleDetail = document.select(VnExpressConstant.TITLE_DETAIL).text()
-                val description = document.select(VnExpressConstant.DESCRIPTION).text()
-                viewModel.contentsList.add(titleDetail)
-                viewModel.contentsList.add(description)
-                val contents = mutableListOf<String>()
-                document.select(VnExpressConstant.NORMAL).forEach { element ->
-                    contents.add(element.text())
-                    viewModel.contentsList.add(element.text())
+                when (newsType) {
+                    News.VN_EXPRESS.ordinal -> crawlNewsFromWeb(
+                        document,
+                        VnExpressConstant.TITLE_DETAIL,
+                        VnExpressConstant.DESCRIPTION,
+                        VnExpressConstant.NORMAL
+                    )
+                    News.TUOI_TRE.ordinal -> crawlNewsFromWeb(
+                        document,
+                        TuoiTreConstant.TITLE_DETAIL,
+                        TuoiTreConstant.DESCRIPTION,
+                        TuoiTreConstant.MAIN_DETAIL_BODY
+                    )
                 }
 
-                val vnExpressNews = VnExpressNews(
-                    title = titleDetail,
-                    desc = description,
-                    contents = contents
-                )
-                viewModel.vnExpressNews.postValue(vnExpressNews)
                 viewModel.isSpeak.postValue(TTSStatus.DONE.ordinal)
             } catch (e: IOException) {
                 Timber.d(e)
                 viewModel.isShowPlay.postValue(false)
             }
         }
+    }
+
+    private fun crawlNewsFromWeb(
+        document: Document,
+        title: String,
+        description: String,
+        content: String
+    ) {
+        val titleDetail = document.select(title).text()
+
+        val desc = document.select(description).text()
+
+        viewModel.contentsList.add(titleDetail)
+        viewModel.contentsList.add(desc)
+        val contents = mutableListOf<String>()
+        document.select(content).forEach { element ->
+            contents.add(element.text())
+            viewModel.contentsList.add(element.text())
+        }
+
+        val vnExpressNews = VnExpressNews(
+            title = titleDetail,
+            desc = desc,
+            contents = contents
+        )
+        viewModel.vnExpressNews.postValue(vnExpressNews)
     }
 
     override fun onDestroy() {

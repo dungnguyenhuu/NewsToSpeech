@@ -76,7 +76,7 @@ class PagerFragment : Fragment() {
 
     private fun navigateWebView(item: ItemNews) {
         NavHostFragment.findNavController(this).navigate(
-            ViewPagerFragmentDirections.actionViewPagerFragmentToWebViewFragment(item)
+            ViewPagerFragmentDirections.actionViewPagerFragmentToWebViewFragment(item, newsType)
         )
     }
 

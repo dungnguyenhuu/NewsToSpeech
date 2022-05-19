@@ -49,7 +49,7 @@ class VnExpressFragment : Fragment() {
 
     private fun navigateWebView(item: ItemNews) {
         findNavController().navigate(
-            VnExpressFragmentDirections.actionVnExpressFragmentToWebViewFragment(item)
+            VnExpressFragmentDirections.actionVnExpressFragmentToWebViewFragment(item, 0)
         )
     }
 

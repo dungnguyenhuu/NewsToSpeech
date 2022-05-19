@@ -4,8 +4,8 @@ import com.example.android.newstospeech.data.model.NewsCategory
 
 object TuoiTreConstant {
     const val TITLE_DETAIL = ".article-title"
-    const val DESCRIPTION = ".sapo"
-    const val MAIN_DETAIL_BODY = "main-detail-body"
+    const val DESCRIPTION = "h2.sapo"
+    const val MAIN_DETAIL_BODY = "#main-detail-body > p"
 
     val listCategories = listOf(
         NewsCategory(

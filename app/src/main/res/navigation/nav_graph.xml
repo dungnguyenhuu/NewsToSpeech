@@ -29,10 +29,14 @@
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.example.android.newstospeech.ui.vnexpress.webview.WebViewFragment"
-        android:label="WebViewFragment" >
+        android:label="WebViewFragment"
+        tools:layout="@layout/fragment_web_view">
         <argument
             android:name="itemNews"
             app:argType="com.example.android.newstospeech.data.model.ItemNews" />
+        <argument
+            android:name="newsType"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
