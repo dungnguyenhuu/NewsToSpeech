@@ -7,10 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.android.newstospeech.R
+import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.databinding.FragmentPagerBinding
 import com.example.android.newstospeech.databinding.FragmentVnExpressBinding
 import com.example.android.newstospeech.databinding.FragmentWebViewBinding
+import com.example.android.newstospeech.ui.vnexpress.ItemNewsAdapter
+import com.example.android.newstospeech.ui.vnexpress.ItemNewsListener
+import com.example.android.newstospeech.ui.vnexpress.VnExpressFragmentDirections
+import com.example.android.newstospeech.ui.vnexpress.viewpager.ViewPagerFragmentDirections
 
 class PagerFragment : Fragment() {
 
@@ -25,7 +33,7 @@ class PagerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPagerBinding.inflate(inflater)
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
@@ -36,35 +44,26 @@ class PagerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             item = it.getInt("position")
-            binding.tvTitle.text = "Item ${it.getInt("position")}"
         }
-        println("AAA on onViewCreated $item")
-        viewModel.getData()
+        println("AAA $item")
+        viewModel.getFeeds()
+        setRecyclerView()
     }
 
-    override fun onStart() {
-        super.onStart()
-        println("AAA on onStart $item")
+    private fun setRecyclerView() {
+        val itemNewsListener = ItemNewsListener { item -> navigateWebView(item) }
+        val adapter = ItemNewsAdapter(itemNewsListener)
+        binding.rvListNews.adapter = adapter
+        viewModel.rssObject.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it.items)
+        })
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("AAA on onResume $item")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        println("AAA on onPause $item")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        println("AAA on stop item $item")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        println("AAA on Destroy item $item")
+    private fun navigateWebView(item: ItemNews) {
+        println("AAA click item")
+        NavHostFragment.findNavController(this).navigate(
+            ViewPagerFragmentDirections.actionViewPagerFragmentToWebViewFragment(item)
+        )
     }
 
 }

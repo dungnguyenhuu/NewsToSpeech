@@ -136,8 +136,7 @@ class VoiceService: Service(), TextToSpeech.OnInitListener {
             .setContentText("Playing text to speech")
             .setContentIntent(pendingIntent)
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
-                .setShowActionsInCompactView(0, 1)
-                .setMediaSession(mediaSessionCompat.sessionToken))
+                .setShowActionsInCompactView(0, 1))
             .setVibrate(null)
             .setSound(null)
         if (isPlaying) {
