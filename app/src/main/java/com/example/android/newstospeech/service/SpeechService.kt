@@ -8,7 +8,6 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
@@ -65,7 +64,7 @@ class SpeechService : Service() {
 
     private fun initMediaPlayer() {
         mMediaPlayer = MediaPlayer()
-        val fileName = Environment.getExternalStorageDirectory().absolutePath + FILENAME
+        val fileName = this.cacheDir.absolutePath + FILENAME
         val uri = Uri.parse("file://$fileName")
         mMediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()

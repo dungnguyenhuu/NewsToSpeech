@@ -2,6 +2,7 @@ package com.example.android.newstospeech.ui.webview
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -12,8 +13,12 @@ import android.media.MediaPlayer.OnCompletionListener
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.RemoteException
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +42,7 @@ import com.example.android.newstospeech.data.constant.VnExpressConstant
 import com.example.android.newstospeech.data.model.ItemNews
 import com.example.android.newstospeech.data.model.VnExpressNews
 import com.example.android.newstospeech.databinding.FragmentWebViewBinding
+import com.example.android.newstospeech.service.MusicService
 import com.example.android.newstospeech.service.SpeechService
 import java.io.File
 import java.io.IOException
@@ -53,6 +59,8 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     companion object {
         fun newInstance() = WebViewFragment()
+        const val STATE_PAUSED = 0
+        const val STATE_PLAYING = 1
     }
 
     lateinit var binding: FragmentWebViewBinding
@@ -61,11 +69,50 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     private val args: WebViewFragmentArgs by navArgs()
     lateinit var itemViews: ItemNews
     private var tts: TextToSpeech? = null
-    lateinit var mMediaPlayer: MediaPlayer
 
-    val broadCastReceiver = object : BroadcastReceiver() {
+    var mCurrentState = STATE_PAUSED
+    var mMediaBrowserCompat: MediaBrowserCompat? = null
+    var mMediaControllerCompat: MediaControllerCompat? = null
+
+    private val mMediaBrowserCompatConnectionCallback =
+        object : MediaBrowserCompat.ConnectionCallback() {
+            override fun onConnected() {
+                super.onConnected()
+                try {
+                    mMediaControllerCompat =
+                        MediaControllerCompat(requireContext(), mMediaBrowserCompat!!.sessionToken)
+                    mMediaControllerCompat!!.registerCallback(mMediaControllerCompatCallback)
+                    MediaControllerCompat.setMediaController(
+                        requireActivity(),
+                        mMediaControllerCompat
+                    )
+                } catch (e: RemoteException) {
+                    println("AAA $e")
+                }
+            }
+        }
+
+    val mMediaControllerCompatCallback = object : MediaControllerCompat.Callback() {
+        override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+            super.onPlaybackStateChanged(state)
+            if (state == null) {
+                return
+            }
+
+            when (state.state) {
+                PlaybackStateCompat.STATE_PLAYING -> {
+                    mCurrentState = STATE_PLAYING
+                }
+                PlaybackStateCompat.STATE_PAUSED -> {
+                    mCurrentState = STATE_PAUSED
+                }
+            }
+        }
+    }
+
+    private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
-           val bundle = intent?.extras ?: return
+            val bundle = intent?.extras ?: return
             viewModel.isSpeak.value = bundle.getInt(ACTION_SPEECH)
 
         }
@@ -74,7 +121,6 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         itemViews = args.itemNews
-        mMediaPlayer = MediaPlayer()
     }
 
     override fun onCreateView(
@@ -92,18 +138,55 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         println("AAA on view created")
         setWebView()
         setupObserve()
-        setupViewEvent()
         getHtmlFromWeb()
         LocalBroadcastManager.getInstance(requireContext())
             .registerReceiver(broadCastReceiver, IntentFilter(SENT_DATA_TO_FRAGMENT))
+        setupMediaBrowser()
+
+        setupViewEvent()
+    }
+
+    private fun setupMediaBrowser() {
+        mMediaBrowserCompat = MediaBrowserCompat(
+            requireContext(), ComponentName(requireContext(), MusicService::class.java),
+            mMediaBrowserCompatConnectionCallback, requireActivity().intent.extras
+        )
+
+        mMediaBrowserCompat!!.connect()
     }
 
     private fun setupViewEvent() {
         tts = TextToSpeech(requireContext(), this)
         binding.fabPlay.setDebounceClickListener {
-            if(viewModel.isSpeak.value != TTSStatus.LOADING.ordinal) {
-                startSpeechService()
+            if (viewModel.isSpeak.value != TTSStatus.LOADING.ordinal) {
+//                startSpeechService()
+                speakSpeech()
             }
+        }
+    }
+
+    private fun speakSpeech() {
+        val fileName = requireContext().cacheDir.absolutePath + FILENAME
+        MediaControllerCompat.getMediaController(requireActivity()).transportControls
+            .playFromMediaId(java.lang.String.valueOf(fileName), null)
+        mCurrentState = if (mCurrentState == STATE_PAUSED) {
+            if ( MediaControllerCompat.getMediaController(requireActivity()) != null) {
+                mMediaControllerCompat?.transportControls?.play()
+                viewModel.isSpeak.value = TTSStatus.PLAY.ordinal
+                STATE_PLAYING
+            } else {
+                viewModel.isSpeak.value = TTSStatus.PAUSE.ordinal
+                STATE_PAUSED
+            }
+
+        } else {
+            if (MediaControllerCompat.getMediaController(requireActivity()).playbackState
+                    .state == PlaybackStateCompat.STATE_PLAYING
+            ) {
+                MediaControllerCompat.getMediaController(requireActivity()).transportControls.pause()
+            }
+            viewModel.isSpeak.value = TTSStatus.PAUSE.ordinal
+            STATE_PAUSED
         }
     }
 
@@ -215,47 +298,9 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
-    private fun initializeMediaPlayer() {
-        val fileName = Environment.getExternalStorageDirectory().absolutePath + FILENAME
-        val uri = Uri.parse("file://$fileName")
-        mMediaPlayer.setAudioAttributes(
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build()
-        )
-        try {
-            mMediaPlayer.setDataSource(requireContext(), uri)
-            mMediaPlayer.prepare()
-            mMediaPlayer.setOnCompletionListener(OnCompletionListener {
-                Toast.makeText(
-                    activity,
-                    "I'm Finished",
-                    Toast.LENGTH_SHORT
-                ).show()
-                viewModel.isSpeak.postValue(TTSStatus.DONE.ordinal)
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun playMediaPlayer(status: Int) {
-        // Start Playing
-        if (status == 0) {
-            mMediaPlayer.start()
-            viewModel.isSpeak.value = TTSStatus.PLAY.ordinal
-        }
-
-        // Pause Playing
-        if (status == 1) {
-            mMediaPlayer.pause()
-            viewModel.isSpeak.value = TTSStatus.PAUSE.ordinal
-        }
-    }
-
     private fun recordText(vnExpressNews: VnExpressNews) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val fileName = Environment.getExternalStorageDirectory().absolutePath + FILENAME
+            val fileName = requireContext().cacheDir.absolutePath + FILENAME
             val soundFile = File(fileName)
             if (soundFile.exists()) soundFile.delete()
             val myBundleAlarm = Bundle()
@@ -279,7 +324,8 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
                 println("AAA Sound file created")
             } else {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(activity, "Oops! Sound file not created", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Oops! Sound file not created", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 println("AAA Oops! Sound file not created")
             }
@@ -291,26 +337,21 @@ class WebViewFragment : Fragment(), TextToSpeech.OnInitListener {
         if (tts != null) {
             tts!!.stop()
         }
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop()
-        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release()
-        }
         if (tts != null) {
             tts!!.shutdown()
         }
-//        stopSpeechService()
         LocalBroadcastManager.getInstance(requireContext())
             .unregisterReceiver(broadCastReceiver)
+
+        if( MediaControllerCompat.getMediaController(requireActivity()).playbackState.state == PlaybackStateCompat.STATE_PLAYING ) {
+            MediaControllerCompat.getMediaController(requireActivity()).transportControls.pause()
+        }
+
+//        mMediaBrowserCompat?.disconnect()
     }
 
-    private fun stopSpeechService() {
-        val intent = Intent(requireContext(), SpeechService::class.java)
-        requireActivity().stopService(intent)
-    }
 }
